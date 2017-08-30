@@ -14,9 +14,40 @@ var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth) / 2; 
 var rightPressed = false;
 var leftPressed = false;
+var brickRowCount = 3;
+var brickColCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
 
 document.addEventListener('keydown', keyDownHandler);
 document.addEventListener('keyup', keyUpHandler);
+
+var bricks = [];
+for (col = 0; col < brickColCount; col++){
+    bricks[col] = [];
+    for(row = 0; row < brickRowCount; row++){
+        bricks[col][row] = {x: 0, y: 0};
+    }
+}
+
+function drawBricks(){
+    for(col = 0; col < brickColCount; col++){
+        for(row = 0; row < brickRowCount; row++){
+            var brickX = (col * (brickWidth + brickPadding)) + brickOffsetLeft;
+            var brickY = (row * (brickHeight + brickPadding)) + brickOffsetTop;
+            bricks[col][row].x = brickX;
+            bricks[col][row].y = brickY;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = '#0095DD';
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
 
 function keyDownHandler(e){
     if(e.keyCode == 39){
@@ -52,6 +83,7 @@ function drawPaddle(){
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks();
     drawBall();
     drawPaddle();
 
