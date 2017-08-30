@@ -157,6 +157,7 @@ function draw(){
 
     x += dx;
     y += dy;
+    requestAnimationFrame(draw);
 }
 
 document.addEventListener('mousemove', mouseMoveHandler);
@@ -167,4 +168,5 @@ function mouseMoveHandler(e) {
         paddleX = relativeX - paddleWidth/2;
     }
 }
-setInterval(draw, 10);
+
+draw();
