@@ -29,22 +29,24 @@ var bricks = [];
 for (col = 0; col < brickColCount; col++){
     bricks[col] = [];
     for(row = 0; row < brickRowCount; row++){
-        bricks[col][row] = {x: 0, y: 0};
+        bricks[col][row] = {x: 0, y: 0, status: 1};
     }
 }
 
 function drawBricks(){
     for(col = 0; col < brickColCount; col++){
         for(row = 0; row < brickRowCount; row++){
-            var brickX = (col * (brickWidth + brickPadding)) + brickOffsetLeft;
-            var brickY = (row * (brickHeight + brickPadding)) + brickOffsetTop;
-            bricks[col][row].x = brickX;
-            bricks[col][row].y = brickY;
-            ctx.beginPath();
-            ctx.rect(brickX, brickY, brickWidth, brickHeight);
-            ctx.fillStyle = '#0095DD';
-            ctx.fill();
-            ctx.closePath();
+            if(bricks[col][row].status == 1){
+                var brickX = (col * (brickWidth + brickPadding)) + brickOffsetLeft;
+                var brickY = (row * (brickHeight + brickPadding)) + brickOffsetTop;
+                bricks[col][row].x = brickX;
+                bricks[col][row].y = brickY;
+                ctx.beginPath();
+                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                ctx.fillStyle = '#0095DD';
+                ctx.fill();
+                ctx.closePath();
+             }
         }
     }
 }
@@ -81,11 +83,27 @@ function drawPaddle(){
     ctx.closePath();
 }
 
+function collisionDetection(){
+    for (col = 0; col < brickColCount; col++){
+        for (row = 0; row < brickRowCount; row++){
+            var brick = bricks[col][row];
+            if(brick.status == 1){
+                if(x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y+brickHeight){
+                    dy = -dy;
+                    brick.status = 0;
+                }      
+            }
+
+        }
+    }
+}
+
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
     drawPaddle();
+    collisionDetection();
 
     if(y + dy - ballRadius < 0){
         dy = -dy;
