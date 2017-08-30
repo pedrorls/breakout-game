@@ -24,11 +24,11 @@ function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
 
-    if(y + dy < 0 || y + dy > canvas.height){
+    if((y + dy - ballRadius/2) < 0 || (y + dy + ballRadius/2) > canvas.height){
         dy = -dy;
     }
 
-    if(x + dx < 0 || x + dx > canvas.width){
+    if((x + dx - ballRadius/2) < 0 || (x + dx + ballRadius/2) > canvas.width){
         dx = -dx
     }
 
