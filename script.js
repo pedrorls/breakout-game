@@ -92,7 +92,11 @@ function collisionDetection(){
                 if(x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y+brickHeight){
                     dy = -dy;
                     brick.status = 0;
-                    score++; 
+                    score++;
+                    if(score == brickRowCount * brickColCount){
+                        alert('You won, congrats');
+                        document.location.reload();
+                    } 
                 }      
             }
 
@@ -104,7 +108,7 @@ function collisionDetection(){
 function drawScore(){
     ctx.font = '16px Arial';
     ctx.fillStyle = '#0095DD';
-    ctx.fillText('Score: '+ scroe, 8, 20);
+    ctx.fillText('Score: '+ score, 8, 20);
 }
 
 function draw(){
