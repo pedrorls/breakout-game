@@ -2,8 +2,6 @@ var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
 
 
-setInterval(draw, 10);
-
 var x = canvas.width/2;
 var y = canvas.height - 30;
 var dx = 2;
@@ -94,7 +92,7 @@ function collisionDetection(){
                     brick.status = 0;
                     score++;
                     if(score == brickRowCount * brickColCount){
-                        alert('You won, congrats');
+                        alert('You won, congrats\nScore: '+ score);
                         document.location.reload();
                     } 
                 }      
@@ -125,7 +123,7 @@ function draw(){
         if(x > paddleX && x < paddleX + paddleWidth){
             dy = -dy;
         } else {
-            alert("You lose !");
+            alert('You lose !\nScore: '+ score);
             document.location.reload();
         }
     }
@@ -142,4 +140,14 @@ function draw(){
 
     x += dx;
     y += dy;
-} 
+}
+
+document.addEventListener('mousemove', mouseMoveHandler);
+
+function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft
+    if(relativeX - paddleWidth/2 > 0 && relativeX + paddleWidth/2 < canvas.width){
+        paddleX = relativeX - paddleWidth/2;
+    }
+}
+setInterval(draw, 10);
